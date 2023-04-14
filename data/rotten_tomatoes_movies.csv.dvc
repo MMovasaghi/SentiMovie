@@ -1,0 +1,4 @@
+outs:
+- md5: fb0d41ea1e5491453cb24f2f75652bcf
+  size: 17115750
+  path: rotten_tomatoes_movies.csv

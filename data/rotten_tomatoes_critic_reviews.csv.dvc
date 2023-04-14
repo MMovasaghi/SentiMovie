@@ -1,0 +1,4 @@
+outs:
+- md5: 400c6f29702d11380696dd4930ebd5e9
+  size: 226049903
+  path: rotten_tomatoes_critic_reviews.csv
