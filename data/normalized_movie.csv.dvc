@@ -1,0 +1,4 @@
+outs:
+- md5: fd6896f88fd33df7213f587daa8ea36f
+  size: 2547207
+  path: normalized_movie.csv
