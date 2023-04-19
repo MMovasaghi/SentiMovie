@@ -3,3 +3,5 @@
 /normalized_data.csv
 /rotten_sample.csv
 /fresh_sample.csv
+/fresh_sample_embedding.csv
+/rotten_sample_embedding.csv
