@@ -1,0 +1,4 @@
+outs:
+- md5: 73b46f189312e130f32e007e78b571ef
+  size: 35408
+  path: rotten_sample.csv
