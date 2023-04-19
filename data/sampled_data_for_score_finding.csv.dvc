@@ -1,0 +1,4 @@
+outs:
+- md5: d85d0837ab1adc099fab33968a1de5f8
+  size: 13513
+  path: sampled_data_for_score_finding.csv
