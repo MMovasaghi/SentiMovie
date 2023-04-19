@@ -5,3 +5,5 @@
 /fresh_sample.csv
 /normalized_movie.csv
 /sampled_data_for_score_finding.csv
+/fresh_sample_embedding.csv
+/rotten_sample_embedding.csv

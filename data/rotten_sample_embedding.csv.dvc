@@ -1,0 +1,4 @@
+outs:
+- md5: 163a154c09a162caed17613f532b2eee
+  size: 1102792
+  path: rotten_sample_embedding.csv
