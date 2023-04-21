@@ -116,7 +116,7 @@ class ETL:
         data.reset_index(inplace=True)
         data.drop('index', axis=1, inplace=True)
         
-        return data, movies
+        return data
     
     
     def save_data(self, data, path="./../../data/normalized_data.csv"):

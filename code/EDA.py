@@ -62,11 +62,12 @@ class EDA:
         return text
     
     
-    def delete_outlier_movie(self, movie, thr_tomatometer_count=5, thr_audience_count=100):
-        self.movie = movie[(movie['tomatometer_count'] >= thr_tomatometer_count) &  
-                     (movie['audience_count'] >= thr_audience_count)].copy()
-        self.movie.reset_index(inplace=True)
-        self.movie.drop('index', axis=1, inplace=True)
+    def delete_outlier_movie(self, data, thr_tomatometer_count=5, thr_audience_count=100):
+        self.movies = data[(data['tomatometer_count'] >= thr_tomatometer_count) &  
+                     (data['audience_count'] >= thr_audience_count)].copy()
+        self.movies = self.movies[self.movies['movie_title'].notna()]
+        self.movies.reset_index(inplace=True)
+        self.movies.drop('index', axis=1, inplace=True)
     
     
     def cleanning_data(self, stem=False, lemma=False):
@@ -124,6 +125,11 @@ class EDA:
             for l in label:
                 statistics[f'{l}_number'] = label[l]
         return statistics
+    
+    
+    def get_movie_dataset(self, data):
+        return data[['rotten_tomatoes_link', 'movie_title', 'tomatometer_rating', 
+                    'audience_rating', 'review_score', 'review_type', 'review_content']]
     
     
     def statistics_of_data(self, data):
