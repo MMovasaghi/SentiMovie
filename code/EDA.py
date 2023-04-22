@@ -7,6 +7,8 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 import re
+import os
+import pickle
 
 nltk.download("stopwords")
 nltk.download('wordnet')
@@ -62,12 +64,40 @@ class EDA:
         return text
     
     
+    def review_number_per_movie(self, output_path="./../data/review_per_movie_dist.pkl", overwrite=False):
+        if (not os.path.exists(output_path)) or overwrite:
+            self.movie_titles = np.unique(list(self.movies['movie_title']))
+            print("[Log] Generate \"review_number\" and save to file.")
+            self.review_number = {t: len(self.movies[self.movies['movie_title'] == t]) for t in tqdm(self.movie_titles)}
+            with open(output_path, 'wb') as handle:
+                pickle.dump(self.review_number, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        else:
+            self.movie_titles = np.unique(list(self.movies['movie_title']))
+            print("[Log] Read \"review_number\" from file.")
+            with open(output_path, 'rb') as f:
+                self.review_number = pickle.load(f)
+    
+    
     def delete_outlier_movie(self, data, thr_tomatometer_count=5, thr_audience_count=100):
         self.movies = data[(data['tomatometer_count'] >= thr_tomatometer_count) &  
                      (data['audience_count'] >= thr_audience_count)].copy()
         self.movies = self.movies[self.movies['movie_title'].notna()]
         self.movies.reset_index(inplace=True)
         self.movies.drop('index', axis=1, inplace=True)
+    
+    
+    def delete_outlier_movie_based_review_number(self, thr=10):
+        if self.review_number:
+            df = {"movie_title": list(self.review_number.keys()), 
+                  "review_number": list(self.review_number.values())}
+            df = pd.DataFrame(df)
+            df = df[df['review_number'] >= thr]
+            self.movies = df.join(self.movies.set_index('movie_title'), on='movie_title', how='inner')
+            self.movies.reset_index(inplace=True)
+            self.movies.drop(['review_number', 'index'], axis=1, inplace=True)
+            return self.movies
+        else:
+            raise Exception("[Error] First, the amount of the \"review_number\" should be calculated.")
     
     
     def cleanning_data(self, stem=False, lemma=False):
