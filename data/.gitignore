@@ -10,3 +10,5 @@
 /sampled_data_with_IMDB_Score.csv
 /review_per_movie_dist.pkl
 /final_normalized_movie.csv
+/fresh_sample_embedding_with_tf_idf.csv
+/rotten_sample_embedding_with_tf_idf.csv

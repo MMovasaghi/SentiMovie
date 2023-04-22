@@ -1,0 +1,4 @@
+outs:
+- md5: dfc4ff1f941f2a977a5f8774beb57358
+  size: 1059379
+  path: fresh_sample_embedding_with_tf_idf.csv
