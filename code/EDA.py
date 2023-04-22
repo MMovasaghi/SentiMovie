@@ -82,8 +82,7 @@ class EDA:
         self.movies = data[(data['tomatometer_count'] >= thr_tomatometer_count) &  
                      (data['audience_count'] >= thr_audience_count)].copy()
         self.movies = self.movies[self.movies['movie_title'].notna()]
-        self.movies.reset_index(inplace=True)
-        self.movies.drop('index', axis=1, inplace=True)
+        self.movies.reset_index(drop=True, inplace=True)
     
     
     def delete_outlier_movie_based_review_number(self, thr=10):
@@ -93,8 +92,8 @@ class EDA:
             df = pd.DataFrame(df)
             df = df[df['review_number'] >= thr]
             self.movies = df.join(self.movies.set_index('movie_title'), on='movie_title', how='inner')
-            self.movies.reset_index(inplace=True)
-            self.movies.drop(['review_number', 'index'], axis=1, inplace=True)
+            self.movies.reset_index(drop=True, inplace=True)
+            self.movies.drop('review_number', axis=1, inplace=True)
             return self.movies
         else:
             raise Exception("[Error] First, the amount of the \"review_number\" should be calculated.")
