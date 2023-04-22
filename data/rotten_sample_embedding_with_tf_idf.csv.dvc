@@ -1,0 +1,4 @@
+outs:
+- md5: 1bbebae64324d6f784766790c1bfe3d0
+  size: 1105494
+  path: rotten_sample_embedding_with_tf_idf.csv
