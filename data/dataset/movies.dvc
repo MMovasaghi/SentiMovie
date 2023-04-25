@@ -1,0 +1,5 @@
+outs:
+- md5: 6a797cf9d2aa35a1f21e81111c004fe5.dir
+  size: 36796152
+  nfiles: 3
+  path: movies
