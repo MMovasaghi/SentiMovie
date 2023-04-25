@@ -1,0 +1,4 @@
+outs:
+- md5: 07cb590408f873f469fe5b3658b74d45
+  size: 55313226
+  path: sample_embedding.json
