@@ -13,3 +13,4 @@
 /fresh_sample_embedding_with_tf_idf.csv
 /rotten_sample_embedding_with_tf_idf.csv
 /sample_embedding.json
+/logs
