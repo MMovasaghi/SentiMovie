@@ -16,5 +16,5 @@ Structure of repo:
 
 Contributors:
 - Mohammad Hosein Movasaghinia ([github](https://github.com/MMovasaghi))
-- Mahdi Manoshehri ([github](https://github.com/mahdimanouchehri))
+- Mahdi Manouchehri ([github](https://github.com/mahdimanouchehri))
 - Hamid Mohtadi Jafari ([github](https://github.com/hamidmj3))
