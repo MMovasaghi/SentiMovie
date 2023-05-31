@@ -1,0 +1,4 @@
+outs:
+- md5: 1ca31276b1a1d6d9a574e134e86e22a9
+  size: 188922
+  path: trainer_state.json

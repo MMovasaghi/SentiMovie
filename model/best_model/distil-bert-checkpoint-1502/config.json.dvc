@@ -1,0 +1,4 @@
+outs:
+- md5: 684bb743869d51c0fee82504d25dfe45
+  size: 615
+  path: config.json

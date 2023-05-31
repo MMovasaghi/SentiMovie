@@ -1,0 +1,4 @@
+outs:
+- md5: 85b9a0123acf6d0126db86153755b111
+  size: 269384005
+  path: optimizer.pt
