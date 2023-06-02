@@ -16,7 +16,7 @@ argParser.add_argument("-c", "--current_dir", help="Current directory")
 argParser.add_argument("-o", "--out_dir", help="Output directory")
 args = argParser.parse_args()
 
-wandb.login(key="aec6fef7ba56ee445129472eb583718b8e529934")
+wandb.login(key="<our-token-key>")
 
 def deflog(text):
     print(f"[DEF-LOG] {text}")

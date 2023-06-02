@@ -1,0 +1,4 @@
+outs:
+- md5: 5c432a850de83d763b0f1be17d277e2f
+  size: 10008
+  path: true-label1.pkl

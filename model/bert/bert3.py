@@ -28,7 +28,7 @@ argParser.add_argument("-o", "--out_dir", help="Output directory")
 args = argParser.parse_args()
 
 
-wandb.login(key="aec6fef7ba56ee445129472eb583718b8e529934")
+wandb.login(key="<our-token-key>")
 
 
 def deflog(text):
@@ -86,11 +86,11 @@ class myModel(torch.nn.Module):
         for param in self.bert.parameters():
             param.requires_grad = False
         self.classifier = nn.Sequential(
-            nn.Linear(768, 512),
-            nn.Dropout(0.1),
+            nn.Linear(768, 768),
+            nn.Dropout(0.4),
             nn.ReLU(),
-            nn.Linear(512, 256),
-            nn.Dropout(0.1),
+            nn.Linear(768, 256),
+            nn.Dropout(0.2),
             nn.ReLU(),
             nn.Linear(256, 2)
         )
@@ -319,9 +319,12 @@ def run_model(config):
                             weight_decay=config['weight_decay'])
     deflog("Optimizer (Adam) defined")
 
-    scheduler = lr_scheduler.LinearLR(optimizer, 
-                         start_factor = 1e-5,
-                         total_iters = 80)
+    # scheduler = lr_scheduler.LinearLR(optimizer, 
+    #                      start_factor = 1e-5,
+    #                      total_iters = 50)
+    scheduler = lr_scheduler.CosineAnnealingLR(optimizer,
+                              T_max = 1500, # Maximum number of iterations.
+                              eta_min = 1e-7)
     deflog("Scheduler (cosin_lr_scheduler) defined")
 
     model_best, history = train_model(model, criterion, optimizer, dataloaders, 
@@ -355,14 +358,14 @@ def main():
     os.chdir(args.current_dir)
     config = {
         "lr": 1e-3,
-        "weight_decay": 1e-6,
-        "train_p": 1,
+        "weight_decay": 1e-7,
+        "train_p": 0.01,
         "val_p": 1,
         "test_p": 1,
         "epoch_num": 30,
-        "batch_size": 3072,
+        "batch_size": 5200,
         "class_num": 2,
-        "run_id": 3,
+        "run_id": 4,
         "out_dir": args.out_dir
     }
     run_model(config)
