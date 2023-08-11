@@ -34,8 +34,8 @@ logging_run("MLflow complete")
 app = FastAPI()
 nest_asyncio.apply()
 
-app.mount("/static", StaticFiles(directory="templates"), name="static")
-templates = Jinja2Templates(directory='templates')
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory='static')
 
 app.add_middleware(
     CORSMiddleware,
@@ -206,19 +206,6 @@ async def explainable(request: Request, text: Annotated[str, Form()]):
         }
 
     return templates.TemplateResponse("result.html", result)
-
-
-# @app.post("/texts", response_class=HTMLResponse)
-# async def texts_list(request: Request, 
-#                   skip: Annotated[int or None, Form()] = 0, 
-#                   limit: Annotated[int or None, Form()] = 10, 
-#                   model: Annotated[str or None, Form()] = "A&B"):
-#     try:
-#         db = dbrepo.DB()
-#         texts = await db.get_texts(skip=skip, limit=limit, model=model)
-#         return templates.TemplateResponse("text_list.html", {"request": request, "texts": texts})
-#     except:
-#         raise HTTPException(status_code=400, detail="Item not found")
 
 
 async def get_list_of_texts(skip: int = 0, limit: int = 10, model: str = "A&B", text=""):
