@@ -7,7 +7,7 @@ import torch
 import numpy as np
 import uvicorn
 import nest_asyncio
-# import mlflow
+import mlflow
 import time
 import psutil
 import model_back
@@ -18,10 +18,10 @@ def logging_run(text):
 
 logging_run("Imports complete")
 
-# mlflow.set_tracking_uri("http://mlflow-app.mlsd-sentimovie-test.svc:5000")
-# mlflow.start_run()
-# run_name = f"Model-A-{int(time.time())}"
-# mlflow.set_tag("mlflow.runName", run_name)
+mlflow.set_tracking_uri("http://mlflow-app.mlsd-sentimovie-test.svc:5000")
+mlflow.start_run()
+run_name = f"Model-A-{int(time.time())}"
+mlflow.set_tag("mlflow.runName", run_name)
 
 logging_run("MLflow complete")
 
@@ -77,7 +77,7 @@ async def predict(data: InputJson):
     else:
         raise HTTPException(status_code=400, detail="You must send at least one text.")
 
-    # logging_mlflow(start_time)
+    logging_mlflow(start_time)
 
     return result
 
@@ -94,11 +94,6 @@ async def predict_explainable(data: InputJson):
     else:
         raise HTTPException(status_code=400, detail="You must send at least one text.")
 
-    # logging_mlflow(start_time)
+    logging_mlflow(start_time)
 
     return result
-
-
-if __name__ == "__main__":
-    nest_asyncio.apply()
-    uvicorn.run(app, host="0.0.0.0", port=8001)
