@@ -1,0 +1,6 @@
+numpy==1.23
+transformers
+Xformers
+matplotlib
+asyncio
+shap

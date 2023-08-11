@@ -1,0 +1,98 @@
+name: Test, Build, and delploy Images
+run-name: Test, Build, and Delploy
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install depencencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./unittest/requirements.txt
+          pip install -r ./unittest/requirements-2.txt
+      - name: Run tests
+        run: |
+          cd ./unittest
+          python test_model.py
+  build:
+    needs: test
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: build and Push Model A
+        run: |
+          docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./model
+          docker push "$IMAGE:${GITHUB_SHA:0:7}"
+        env:
+          REGISTRY: ${{ vars.REGISTRY }}
+          REGISTRY_PASSWORD: ${{ vars.REGISTRY_PASSWORD }}
+          REGISTRY_USER: ${{ vars.REGISTRY_USER }}
+          APP_NAME: ${{ vars.APP_NAME_MODEL }}
+          IMAGE: ${{ vars.REGISTRY }}/${{ vars.APP_NAME_MODEL }}
+      - name: build and Push MLflow
+        run: |
+          docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./mlflow
+          docker push "$IMAGE:${GITHUB_SHA:0:7}"
+        env:
+          REGISTRY: ${{ vars.REGISTRY }}
+          REGISTRY_PASSWORD: ${{ vars.REGISTRY_PASSWORD }}
+          REGISTRY_USER: ${{ vars.REGISTRY_USER }}
+          APP_NAME: ${{ vars.APP_NAME_MLFLOW }}
+          IMAGE: ${{ vars.REGISTRY }}/${{ vars.APP_NAME_MLFLOW }}
+      - name: build and Push Model B
+        run: |
+          docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./model
+          docker push "$IMAGE:${GITHUB_SHA:0:7}"
+        env:
+          REGISTRY: ${{ vars.REGISTRY }}
+          REGISTRY_PASSWORD: ${{ vars.REGISTRY_PASSWORD }}
+          REGISTRY_USER: ${{ vars.REGISTRY_USER }}
+          APP_NAME: ${{ vars.APP_NAME_MODEL_B }}
+          IMAGE: ${{ vars.REGISTRY }}/${{ vars.APP_NAME_MODEL_B }}
+      - name: build and Push Broker
+        run: |
+          docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./broker
+          docker push "$IMAGE:${GITHUB_SHA:0:7}"
+        env:
+          REGISTRY: ${{ vars.REGISTRY }}
+          REGISTRY_PASSWORD: ${{ vars.REGISTRY_PASSWORD }}
+          REGISTRY_USER: ${{ vars.REGISTRY_USER }}
+          APP_NAME: ${{ vars.APP_NAME_API }}
+          IMAGE: ${{ vars.REGISTRY }}/${{ vars.APP_NAME_API }}
+  darkube_deploy:
+    needs: build
+    container: hamravesh.hamdocker.ir/public/darkube-cli:v1.1
+    runs-on: self-hosted
+    steps:
+      - name: Deploy MLflow
+        run: darkube deploy --ref master --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        env:
+          DARKUBE_DEPLOY_TOKEN: ${{ vars.DARKUBE_DEPLOY_TOKEN_MLFLOW }}
+          DARKUBE_APP_ID: ${{ vars.DARKUBE_APP_ID_MLFLOW }}
+      - name: Deploy Model
+        run: darkube deploy --ref master --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        env:
+          DARKUBE_DEPLOY_TOKEN: ${{ vars.DARKUBE_DEPLOY_TOKEN_MODEL }}
+          DARKUBE_APP_ID: ${{ vars.DARKUBE_APP_ID_MODEL }}
+      - name: Deploy Model B
+        run: darkube deploy --ref master --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        env:
+          DARKUBE_DEPLOY_TOKEN: ${{ vars.DARKUBE_DEPLOY_TOKEN_MODEL_B }}
+          DARKUBE_APP_ID: ${{ vars.DARKUBE_APP_ID_MODEL_B }}
+      - name: Deploy Broker
+        run: darkube deploy --ref master --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        env:
+          DARKUBE_DEPLOY_TOKEN: ${{ vars.DARKUBE_DEPLOY_TOKEN_API }}
+          DARKUBE_APP_ID: ${{ vars.DARKUBE_APP_ID_API }}

@@ -1,0 +1,13 @@
+numpy==1.23
+transformers
+Xformers
+accelerate
+shap
+fastapi
+pydantic
+mlflow
+matplotlib
+uvicorn
+nest-asyncio
+python-multipart
+psutil

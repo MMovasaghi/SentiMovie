@@ -1,0 +1,11 @@
+fastapi
+pydantic
+mlflow
+numpy
+uvicorn
+nest-asyncio
+python-multipart
+psutil
+psycopg2-binary
+SQLAlchemy
+pydantic

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SentiMovie - texts</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+  <link href="{{ url_for('static', path='floating-labels.css') }}" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='favicon.ico') }}">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">SentiMovie</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/texts">Texts <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Result</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container mt-5">
+    <div class="card form-signin border-success mb-3" style="max-width: 100rem;">
+      <div class="card-header text-center"><h1>Texts List</h1></div>
+      <div class="card-header text-center">
+        <form id="uploadForm" enctype="multipart/form-data" method="post" action="/texts">
+          <div class="form-row">
+            <div class="col">
+              <input type="text" name="skip" class="form-control" placeholder="From">
+            </div>
+            <div class="col">
+              <input type="text" name="limit" class="form-control" placeholder="Limit">
+            </div>
+            <div class="col">
+              <input type="text" name="model" class="form-control" placeholder="Model (A or B or A&B)">
+            </div>
+          </div>
+          <div class="form-row mt-3 mx-auto">
+            <textarea class="form-control" id="text" name="text" rows="2" placeholder="contains this text"></textarea>
+          </div>
+          <button type="submit" class="mt-3 mx-auto btn btn-lg btn-primary mb-2" style="width: 30rem;">Search</button>
+        </form>
+      </div>
+      <div class="card-body text-success text-center">
+        <div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Text</th>
+                  <th scope="col">Sentiment</th>
+                  <th scope="col">Probability</th>
+                  <th scope="col">Model</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for t in texts %}
+                <tr>
+                  <th scope="row">{{t.id}}</th>
+                  <td>{{t.text}}</td>
+                  <td>{{t.sentiment}}</td>
+                  <td>{{t.probability}}</td>
+                  <td>{{t.model}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+        <form class="form-signin mt-5" enctype="multipart/form-data" method="get" action="/">
+          <button class="btn btn-lg btn-secondary btn-block" type="submit">Back</button>
+        </form>
+      </div>
+    </div>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; Mohammad Hosein Movasaghinia 2023</p>
+  </div>
+</body>
+</html>

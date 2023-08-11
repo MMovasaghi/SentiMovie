@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SentiMovie</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    .preview {
+      max-width: 200px;
+      max-height: 200px;
+      margin-top: 20px;
+    }
+  </style>
+  <link href="{{ url_for('static', path='floating-labels.css') }}" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='favicon.ico') }}">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">SentiMovie</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/texts">Texts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Result</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container mt-5">
+    <form id="uploadForm" class="form-signin" enctype="multipart/form-data" method="post" action="/predict/explainable">
+        <div class="text-center mb-1">
+            <img class="mb-3" src="{{ url_for('static', path='logo.png') }}" alt="" height="250">
+            <h1 class="h4 mb-3 mt-1 font-weight-normal">Sentiment Analysis</h1>
+        </div>
+        <div class="form-group mb-3">
+          <label for="text">Input text:</label>
+          <textarea class="form-control" id="text" name="text" rows="3"></textarea>
+        </div>
+        <button class="btn btn-lg btn-success btn-block" type="submit">Predict</button>
+        <p class="mt-5 mb-3 text-muted text-center">&copy; Mohammad Hosein Movasaghinia 2023</p>
+    </form>
+  </div>
+</body>
+</html>

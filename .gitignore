@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 phase3/mlruns/*
 phase3/checkpoint-1502/*
+**/checkpoint*
+**/deployment-testing*
