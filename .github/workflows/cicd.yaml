@@ -15,11 +15,11 @@ jobs:
       - name: Install depencencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r ./unittest/requirements.txt
-          pip install -r ./unittest/requirements-2.txt
+          pip install -r ./3-Deployment-phase/unittest/requirements.txt
+          pip install -r ./3-Deployment-phase/unittest/requirements-2.txt
       - name: Run tests
         run: |
-          cd ./unittest
+          cd ./3-Deployment-phase/unittest
           python test_model.py
   build:
     needs: test
@@ -30,7 +30,7 @@ jobs:
       - name: build and Push Model A
         run: |
           docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./model
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./3-Deployment-phase/model
           docker push "$IMAGE:${GITHUB_SHA:0:7}"
         env:
           REGISTRY: ${{ vars.REGISTRY }}
@@ -41,7 +41,7 @@ jobs:
       - name: build and Push MLflow
         run: |
           docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./mlflow
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./3-Deployment-phase/mlflow
           docker push "$IMAGE:${GITHUB_SHA:0:7}"
         env:
           REGISTRY: ${{ vars.REGISTRY }}
@@ -52,7 +52,7 @@ jobs:
       - name: build and Push Model B
         run: |
           docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./model
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./3-Deployment-phase/model
           docker push "$IMAGE:${GITHUB_SHA:0:7}"
         env:
           REGISTRY: ${{ vars.REGISTRY }}
@@ -63,7 +63,7 @@ jobs:
       - name: build and Push Broker
         run: |
           docker login $REGISTRY -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./broker
+          docker build -t "$IMAGE:${GITHUB_SHA:0:7}" ./3-Deployment-phase/broker
           docker push "$IMAGE:${GITHUB_SHA:0:7}"
         env:
           REGISTRY: ${{ vars.REGISTRY }}
