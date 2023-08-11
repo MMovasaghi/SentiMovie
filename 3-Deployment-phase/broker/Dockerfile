@@ -3,5 +3,7 @@ WORKDIR /app
 COPY requirements.txt .
 COPY . .
 RUN pip install -r requirements.txt
+COPY templates ./templates
+COPY database ./database
 
 CMD ["uvicorn", "broker:app", "--host", "0.0.0.0", "--port", "80"]
