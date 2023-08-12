@@ -6,7 +6,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, Date
 from sqlalchemy.orm import relationship
 
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:yCiLq5M38YewIwwtvUtjmBu4rnOG7ftb@my-postgres.mlsd-sentimovie-test.svc:5432"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:Za8lcEDrsZiJVBp0UDgA8bYpcBzhct1b@mypostgres.mlsd-sentimovie-test.svc:5432"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
