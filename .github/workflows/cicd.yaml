@@ -1,6 +1,9 @@
 name: Test, Build, and delploy Images
 run-name: Test, Build, and Delploy
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   test:

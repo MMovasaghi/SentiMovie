@@ -3,18 +3,14 @@ MLSD course project
 
 Sharif University of Technology, 2023
 
-## Pipeline of project
-![pipeline of project](doc/figs/MLops_phase1_diagram.jpeg)
+
+## Model deployment
+![Deploymnet model](doc/figs/deployment_model.png)
 
 
 Structure of repo:
-- [Codes](code/)
-- [Data](data/)
+- [Data-Code](1-Data-phase/)
+- [Model-Code](2-Model-phase/)
+- [Deployment-Code](3-Deployment-phase/)
 - [Doc](doc/)
-
-
-
-Contributors:
-- Mohammad Hosein Movasaghinia ([github](https://github.com/MMovasaghi))
-- Mahdi Manouchehri ([github](https://github.com/mahdimanouchehri))
-- Hamid Mohtadi Jafari ([github](https://github.com/hamidmj3))
+- [Data](data/)
