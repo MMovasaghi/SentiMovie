@@ -180,13 +180,17 @@ def main(request: Request):
 
 
 @app.post("/predict/explainable", response_class=HTMLResponse)
-async def explainable(request: Request, text: Annotated[str, Form()]):
+async def explainable(request: Request, text: Annotated[str, Form()], withdetail: Annotated[str, Form()] = None):
     start_time0 = time.time()
     logging_run(text)
     input_data = {"texts": [text]}
+    
     # -- base server inference
     try:
-        response = await model_explanable(input_data, model_A_url, True)
+        if withdetail:
+            response = await model_explanable(input_data, model_A_url, True)
+        else:
+            response = await model_inference(input_data, model_A_url, True)
         await save_to_db(response, model="A")
     except:
         templates.TemplateResponse("notfound.html", {"request":request})
@@ -202,7 +206,7 @@ async def explainable(request: Request, text: Annotated[str, Form()]):
         "request": request, 
         "text": text,
         "sentiment": f'<p class="text-danger">{response["sentiment"]} ({response["probability"]})</p>' if response['sentiment'] == "Positive" else f'<p class="text-primary">{response["sentiment"]} ({response["probability"]})</p>',
-        "diagram":response['diagram'].replace("\"", "\"").replace("\n", ""),
+        "diagram": response['diagram'].replace("\"", "\"").replace("\n", "") if withdetail else "",
         }
 
     return templates.TemplateResponse("result.html", result)
