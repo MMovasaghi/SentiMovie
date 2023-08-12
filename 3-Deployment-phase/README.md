@@ -1,1 +1,27 @@
-# test-cicd
+# Sentimovie FastAPI Application Documentation
+
+This documentation provides an overview of the `SentiMovie` FastAPI application codebase. This application is designed to provide sentiment analysis and explanation for given text inputs using multiple models.
+
+## Table of Contents
+* [API](broker/readme.md)
+    * [Introduction](broker/readme.md#Introduction)
+    * [Installation](broker/readme.md#Installation)
+    * [Usage](broker/readme.md#Usage)
+    * [Endpoints](broker/readme.md#Endpoints)
+        * [Predict Sentiment](broker/readme.md#Predict)
+        * [Explainable Sentiment](broker/readme.md#explainable)
+        * [Retrieve Texts](broker/readme.md#texts-post)
+* [Model](model/readme.md)
+    * [FastAPI model service](model/readme.md#fastapi)
+        * [Installation](model/readme.md#Installation)
+        * [Usage](model/readme.md#Usage)
+        * [Endpoints](model/readme.md#endpoints)
+            * [Predict](model/readme.md#predict)
+            * [Explainable](model/readme.md#Explainable)
+        * [Monitoring](model/readme.md#Monitoring)
+    * [Back model library (MyClassifier)](model/readme.md#myclassifier)
+        * [Features](model/readme.md#Features)
+        * [Getting](model/readme.md#Getting)
+        * [Methods](model/readme.md#Methods)
+        * [Dependencies](model/readme.md#Dependencies)
+        * [Note](model/readme.md#Note)

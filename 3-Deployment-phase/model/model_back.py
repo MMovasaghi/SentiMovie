@@ -4,6 +4,14 @@ import shap
 
 class MyClassifier():
     def __init__(self):
+        """
+        Initializes an instance of the MyClassifier class.
+
+        Attributes:
+        - round_number: The number of decimal places to round the prediction probabilities.
+        - classifier: A sentiment analysis pipeline using a pre-trained model from Hugging Face Transformers.
+        - explainer: A SHAP explainer object used for generating model explanations.
+        """
         self.round_number = 4
         self.classifier = transformers.pipeline(model='Movasaghi/finetuning-sentiment-rottentomatoes', 
                                     return_all_scores=True)
@@ -11,6 +19,21 @@ class MyClassifier():
 
 
     async def batch_prediction(self, texts):
+        """
+        Perform batch sentiment analysis prediction on a list of texts.
+
+        Args:
+        - texts (list): A list of text inputs for sentiment analysis.
+
+        Returns:
+        - dict: A dictionary containing sentiment analysis results.
+        - "sentiment": The overall sentiment prediction for the batch ("Positive" or "Negative").
+        - "score": The proportion of positive sentiment predictions in the batch (rounded).
+        - "detail" (list): A list of dictionaries containing detailed results for each text input.
+            - "text": The input text.
+            - "sentiment": The predicted sentiment for the text ("Positive" or "Negative").
+            - "probability": The predicted sentiment probability (rounded).
+        """
         output= self.classifier(texts)
         results = {
             "sentiment": None,
@@ -41,6 +64,18 @@ class MyClassifier():
 
 
     async def single_prediction(self, text):
+        """
+        Perform sentiment analysis prediction on a single text.
+
+        Args:
+        - text (str): The text input for sentiment analysis.
+
+        Returns:
+        - dict: A dictionary containing sentiment analysis result for the input text.
+        - "text": The input text.
+        - "sentiment": The predicted sentiment ("Positive" or "Negative").
+        - "probability": The predicted sentiment probability (rounded).
+        """
         output= self.classifier(text)
         result = {
             "text": text, 
@@ -57,6 +92,19 @@ class MyClassifier():
 
 
     async def explainable_prediction(self, text):
+        """
+        Perform explainable sentiment analysis prediction on a single text.
+
+        Args:
+        - text (str): The text input for sentiment analysis.
+
+        Returns:
+        - dict: A dictionary containing sentiment analysis result and SHAP explanation for the input text.
+        - "text": The input text.
+        - "sentiment": The predicted sentiment ("Positive" or "Negative").
+        - "probability": The predicted sentiment probability (rounded).
+        - "diagram": A diagram in HTML format representing the SHAP explanation for the prediction.
+        """
         output = self.classifier(text)
         shap_values = self.explainer([text])
         exp_html = shap.plots.text(shap_values[:,:,"LABEL_1"], display=False)
