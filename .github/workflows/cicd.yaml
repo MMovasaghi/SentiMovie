@@ -23,7 +23,7 @@ jobs:
           python test_model.py
   build:
     needs: test
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -74,7 +74,7 @@ jobs:
   darkube_deploy:
     needs: build
     container: hamravesh.hamdocker.ir/public/darkube-cli:v1.1
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy MLflow
         run: darkube deploy --ref master --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
